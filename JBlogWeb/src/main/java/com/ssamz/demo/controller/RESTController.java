@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.ssamz.demo.domain.User;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class RESTController {
@@ -24,19 +26,19 @@ public class RESTController {
 
 	// POST: INSERT
 	@PostMapping("/jblog")
-	public String httpPost(User user) {
+	public String httpPost(@RequestBody User user) {
 		return "POST 요청 처리 입력값 : " + user.toString();
 	}
 
 	// PUT: UPDATE
 	@PutMapping("/jblog")
-	public String httpPut() {
-		return "Put 요청 처리";
+	public String httpPut(@RequestParam User user) {
+		return "Put 요청 처리 입력값 : " + user.toString();
 	}
 
 	// DELETE: DELETE
 	@DeleteMapping("/jblog")
-	public String httpDelete() {
-		return "Delete 요청 처리";
+	public String httpDelete(@RequestParam int id) {
+		return "Delete 요청 처리 입력값 : " + id;
 	}
 }
