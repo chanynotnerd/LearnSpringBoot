@@ -10,7 +10,7 @@ server:
 spring:
   mvc:
     view:
-      prefix: /WEB-INF/jblog
+      prefix: /WEB-INF/jblog/
       suffix: .jsp
 
 # 데이터소스 설정, 무조건 spring 하위에 작성해야 함.
