@@ -22,7 +22,7 @@ let userObject =
 		// Ajax를 이용한 비동기 호출
 		// done() 함수 : 요청 처리에 성공했을 때 실행될 코드
 		// fail() 함수 : 요청 처리에 실패했을 때 실행될 코드
-		$.Ajax({
+		$.ajax({
 			type: "POST",	// 요청 방식
 			url: "/auth/insertUser",	// 요청 경로
 			data: JSON.stringify(user),	// user 객체를 JSON 형식으로 변환
@@ -32,7 +32,7 @@ let userObject =
 		}).done(function(response) {
 			// 응답 메세지를 콘솔에 출력하고 메인 페이지로 이동
 			console.log(response);
-			location = "/";
+		    location = "/";
 			// 에러 발생 시 error로 에러 정보를 받는다.
 		}).fail(function(error) {
 			// 에러 메세지를 알림창에 출력
