@@ -2,16 +2,15 @@
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container mt-3">
-	<form>
+	<form action="/auth/login" method="post">
 		<div class="mb-3">
-			<label for="uname">Username:</label> <input type="text" class="form-control" id="username" placeholder="Enter username" name="username">
+			<label for="uname">Username:</label> <input type="text" class="form-control" id="username" placeholder="Enter username">
 		</div>
 		<div class="mb-3">
-			<label for="pwd">Password:</label> <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
+			<label for="pwd">Password:</label> <input type="password" class="form-control" id="password" placeholder="Enter password">
 		</div>
 	</form>
-
-	<button id="btn-login" class="btn btn-secondary">로그인</button>
+	<button id="btn-login" class="btn btn-secondary" type="submit">로그인</button>
 </div>
 
 <script src="/js/login.js"></script>

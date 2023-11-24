@@ -22,14 +22,14 @@ let loginObject =
 		$.ajax({
 			type: "POST",	// 요청 방식
 			url: "/auth/login",	// 요청 경로
-			data: JSON.stringify(user),	// user 객체를 JSON 형식으로 변환
+			data: JSON.stringify(data),	// user 객체를 JSON 형식으로 변환
 			// HTTP의 body에 설정되는 데이터 마임타임
 			contentType: "application/json; charset=utf-8"
 			// 응답으로 들어온 JSON 데이터를 response로 받는다.
 		}).done(function(response) {
 			let message = response["data"];
 			alert(message);
-			location = "/";
+			location.href = "/jblog/view";
 			// 에러 발생 시 error로 에러 정보를 받는다.
 		}).fail(function(error) {
 			let message = error["data"];

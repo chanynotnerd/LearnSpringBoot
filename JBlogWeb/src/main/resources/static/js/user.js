@@ -32,7 +32,7 @@ let userObject =
 		}).done(function(response) {
 			// 응답 메세지를 콘솔에 출력하고 메인 페이지로 이동
 			console.log(response);
-		    location = "/";
+		    location = "/jblog/view";
 			// 에러 발생 시 error로 에러 정보를 받는다.
 		}).fail(function(error) {
 			// 에러 메세지를 알림창에 출력
