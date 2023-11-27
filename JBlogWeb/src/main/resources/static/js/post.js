@@ -9,6 +9,12 @@ let postObject =
 		$("#btn-insert").on("click", () => {	// jQuery를 사용하여 "#btn-insert"라는 HTML 요소에 클릭 이벤트 설정
 			_this.insertPost();		// 클릭되면 insertPost 함수 호출.
 		});
+		$("#btn-update").on("click", () => {	// jQuery를 사용하여 "#btn-insert"라는 HTML 요소에 클릭 이벤트 설정
+			_this.updatePost();		// 클릭되면 insertPost 함수 호출.
+		});
+		$("#btn-delete").on("click", () => {	// jQuery를 사용하여 "#btn-insert"라는 HTML 요소에 클릭 이벤트 설정
+			_this.deletePost();		// 클릭되면 insertPost 함수 호출.
+		});
 	},
 
 	insertPost: function() {	// 회원가입 요청됨 이라는 알림창을 띄우는 함수.
@@ -17,7 +23,7 @@ let postObject =
 		let post = {	// user 객체 선언
 			title: $("#title").val(),		// $().val() 메소드는 선택한 HTML 요소의 값을 반환하는 jQuery 메소드
 			content: $("#content").val()	// #title, #content 전부 각각 해당 id를 가진
-											// HTML 요소를 선택하는 selectors 다? 그냥 값 반환해주기 위한 id 정도로 생각하자.
+			// HTML 요소를 선택하는 selectors 다? 그냥 값 반환해주기 위한 id 정도로 생각하자.
 		}
 		// Ajax를 이용한 비동기 호출
 		// done() 함수 : 요청 처리에 성공했을 때 실행될 코드
@@ -33,7 +39,7 @@ let postObject =
 			// 응답 메세지를 콘솔에 출력하고 메인 페이지로 이동
 			let message = response["data"];
 			alert(message);
-		    location = "/jblog/view";
+			location = "/jblog/view";
 			// 에러 발생 시 error로 에러 정보를 받는다.
 		}).fail(function(error) {
 			// 에러 메세지를 알림창에 출력
@@ -41,7 +47,52 @@ let postObject =
 			alert("에러 발생 : " + error);
 		});
 	},
+	updatePost: function() {
+		alert("포스트 수정 요청됨");
 
+		let post = {
+			id: $("#id").val(),
+			title: $("#title").val(),
+			content: $("#content").val()
+		}
+
+		// 아래는 AJAX 요청 코드입니다.
+		// 이 코드는 updatePost 메서드 안에 있어야 합니다.
+		$.ajax({
+			type: "PUT",
+			url: "/post",
+			data: JSON.stringify(post),
+			contentType: "application/json; charset=utf-8"
+		}).done(function(response) {
+			let message = response["data"];
+			alert(message);
+			location = "/jblog/view";
+		}).fail(function(error) {
+			let message = error["data"];
+			alert("에러 발생 : " + error);
+		});
+	},
+	
+		deletePost: function() {
+		alert("포스트 삭제 요청됨");
+
+		let id = $("#id").text();
+
+		// 아래는 AJAX 요청 코드입니다.
+		// 이 코드는 updatePost 메서드 안에 있어야 합니다.
+		$.ajax({
+			type: "DELETE",
+			url: "/post/" + id,
+			contentType: "application/json; charset=utf-8"
+		}).done(function(response) {
+			let message = response["data"];
+			alert(message);
+			location = "/jblog/view";
+		}).fail(function(error) {
+			let message = error.responseJSON ? error.responseJSON.message : error.responseText;
+			alert("에러 발생 : " + error);
+		});
+	},
 }
 
 // userObject 객체의 init() 함수 호출

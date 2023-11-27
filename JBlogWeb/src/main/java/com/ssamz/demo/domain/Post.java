@@ -1,6 +1,7 @@
 package com.ssamz.demo.domain;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -13,6 +14,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,4 +48,8 @@ public class Post {
 	@ManyToOne(fetch = FetchType.EAGER)	// Post와 User간의 N:1 관계를 나타내며, EAGER를 통해 Post 조회 시 연관된 User도 함께 조회
 	@JoinColumn(name = "userid")	// User와 연결된 외래키의 이름을 userid로 설정한다는 것을 나타냄.
 	private User user;
+	
+	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+	@OrderBy("id desc")
+	private List<Reply> replyList;
 }

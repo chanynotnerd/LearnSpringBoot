@@ -15,7 +15,7 @@
 	<div class="card">
 		<div class="card-body">
 			<h4 class="card-title"><%=post.getTitle()%></h4>
-			<a href="#" class="btn btn-secondary">상세보기</a>
+			<a href="/post/<%=post.getId() %>" class="btn btn-secondary">상세보기</a>
 		</div>
 	</div>
 	<%

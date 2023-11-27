@@ -11,6 +11,6 @@ public class JBlogWebMvcConfiguration implements WebMvcConfigurer{
 	public void addInterceptors(InterceptorRegistry registry)
 	{
 		registry.addInterceptor(
-				new AuthenticateInterceptor()).addPathPatterns("/", "/jblog/view");
+				new AuthenticateInterceptor()).addPathPatterns("/", "/post/**");
 	}
 }
