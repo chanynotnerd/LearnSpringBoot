@@ -26,6 +26,18 @@ let replyObject = {
             location.reload();
         });
     },
+    
+    deleteReply: function(postId, replyId) {
+        alert("댓글 삭제 요청됨");
+
+        $.ajax({
+            type: "DELETE",
+            url: "/reply/" + replyId
+        }).done(function(response) {
+            let message = response["data"];
+            location = "/post/" + postId;
+        });
+    },
 }
 
 replyObject.init();

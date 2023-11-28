@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.ssamz.demo.domain.Post"%>
+<%@ page import="com.ssamz.demo.domain.User"%>
 <%@ page import="com.ssamz.demo.domain.Reply"%>
 <%@ page import="java.time.format.DateTimeFormatter"%>
 <%@ page import="java.util.ArrayList"%>
@@ -37,6 +38,7 @@
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	Post post = (Post) request.getAttribute("post");
 	if (post.getReplyList() != null && !post.getReplyList().isEmpty()) {
+		User currentUser = (User) request.getSession(false).getAttribute("principal"); // 세션에서 사용자 정보를 가져옵니다.
 	%>
 	<div class="container mt-3">
 		<table class="table">
@@ -46,6 +48,7 @@
 					<th width="10%">작성자</th>
 					<th width="20%">시간</th>
 					<th width="10%">삭제</th>
+					<!-- 항상 삭제 열을 표시합니다. -->
 				</tr>
 			</thead>
 			<tbody>
@@ -55,8 +58,17 @@
 				<tr>
 					<td><%=reply.getContent()%></td>
 					<td><%=reply.getUser().getUsername()%></td>
-					<td><%=reply.getCreateDate().format(formatter) %></td>
-					<td><button>삭제</button></td>
+					<td><%=reply.getCreateDate().format(formatter)%></td>
+					<td>
+						<%
+						// 사용자가 로그인한 경우에만 삭제 버튼을 표시합니다.
+						if (currentUser != null && reply.getUser().getUsername() != null
+								&& reply.getUser().getUsername().equals(currentUser.getUsername())) {
+						%>
+						<button onclick="replyObject.deleteReply(<%=post.getId()%>,<%=reply.getId()%>)">삭제</button> <%
+ }
+ %>
+					</td>
 				</tr>
 				<%
 				}
@@ -67,7 +79,6 @@
 	<%
 	}
 	%>
-
 	<br> <br>
 	<div class="container mt-3">
 		<input type="hidden" id="postId" value="${post.id}">

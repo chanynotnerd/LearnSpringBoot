@@ -19,6 +19,12 @@ public class ReplyService {
 	private PostRepository postRepository;
 	
 	@Transactional
+	public void deleteReply(int replyId)
+	{
+		replyRepository.deleteById(replyId);
+	}
+	
+	@Transactional
 	public void insertReply(int postId, Reply reply, User user)
 	{
 		Post post = postRepository.findById(postId).get();

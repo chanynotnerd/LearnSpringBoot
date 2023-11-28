@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -49,7 +50,8 @@ public class Post {
 	@JoinColumn(name = "userid")	// User와 연결된 외래키의 이름을 userid로 설정한다는 것을 나타냄.
 	private User user;
 	
-	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER,
+	cascade = CascadeType.REMOVE)
 	@OrderBy("createDate asc")
 	private List<Reply> replyList;
 }
