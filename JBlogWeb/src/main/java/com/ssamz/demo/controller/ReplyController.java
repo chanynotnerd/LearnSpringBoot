@@ -14,7 +14,7 @@ import com.ssamz.demo.domain.User;
 import com.ssamz.demo.dto.ResponseDTO;
 import com.ssamz.demo.service.ReplyService;
 
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class ReplyController {

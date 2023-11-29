@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="jakarta.servlet.http.HttpSession"%>
+<%@ page import="javax.servlet.http.HttpSession"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+
+<!-- 로그인 인증에 성공한 브라우저만 접근할 수 있는 영역 -->
+<sec:authorize access="isAuthenticated()">
+	<!-- principal은 로그인 성공한 사용자(User) 객체에 접근할 수 있는 변수 -->
+	<sec:authentication var="principal" property="principal"/>
+</sec:authorize>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,31 +31,19 @@
 			</button>
 
 			<div class="collapse navbar-collapse" id="mynavbar">
-				<%
-                    // 세션에서 principal 객체 가져오기.
-                    // 세션에 저장된 principal 객체는 로그인한 사용자의 정보를 담고있으므로
-                    // 이 객체의 값이 null이면 로그인 되지 않은 상태이므로 이를 통해 로그인 유효 검사를 확인.
-                    HttpSession session1 = request.getSession();
-                    Object principal = session1.getAttribute("principal");
-                    
-                    if (principal == null) {
-                %>
-				<ul class="navbar-nav me-auto">
-					<li class="nav-item"><a class="nav-link" href="/auth/login">로그인</a></li>
-					<li class="nav-item"><a class="nav-link" href="/auth/insertUser">회원가입</a></li>
-				</ul>
-				<%
-                    } else {
-                %>
-				<ul class="navbar-nav me-auto">
-					<li class="nav-item"><a class="nav-link" href="/user/updateUser">회원 상세</a></li>
-					<li class="nav-item"><a class="nav-link" href="/post/insertPost">포스트 등록</a></li>
-					<li class="nav-item"><a class="nav-link" href="/auth/logout">로그아웃</a></li>
-				</ul>
-				<%
-                    }
-                %>
-
+			<sec:authorize access="isAnonymous()">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/auth/login">로그인</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/auth/insertUser">회원가입</a></li>
+                </ul>
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/user/updateUser">회원 상세</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/post/insertPost">포스트 등록</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/auth/logout">로그아웃</a></li>
+                </ul>
+            </sec:authorize>
 				<form class="d-flex">
 					<input class="form-control me-2" type="text" placeholder="Search">
 					<button class="btn btn-primary" type="button">Search</button>

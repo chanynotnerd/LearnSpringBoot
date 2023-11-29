@@ -27,8 +27,8 @@ import com.ssamz.demo.dto.PostDTO;
 import com.ssamz.demo.dto.ResponseDTO;
 import com.ssamz.demo.service.PostService;
 
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 public class PostController {

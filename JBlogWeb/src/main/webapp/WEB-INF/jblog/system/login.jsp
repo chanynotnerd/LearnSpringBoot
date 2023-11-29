@@ -5,16 +5,14 @@
 	<form action="/auth/login" method="post">
 		<div class="mb-3">
 			<label for="uname"><spring:message code="user.login.form.username"/>
-			</label> <input type="text" class="form-control" id="username" placeholder="Enter username">
+			</label> <input type="text" class="form-control" name="username" placeholder="Enter username" value="test">
 		</div>
 		<div class="mb-3">
 			<label for="pwd"><spring:message code="user.login.form.password"/>
-			</label> <input type="password" class="form-control" id="password" placeholder="Enter password">
+			</label> <input type="password" class="form-control" name="password" placeholder="Enter password" value="test123">
+			<button id="btn-login" class="btn btn-secondary" type="submit">로그인</button>
 		</div>
 	</form>
-	<button id="btn-login" class="btn btn-secondary" type="submit">
-	<spring:message code="user.login.form.login_btn"/></button>
 </div>
 
-<script src="/js/login.js"></script>
 <%@ include file="../layout/footer.jsp"%>

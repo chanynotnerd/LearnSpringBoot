@@ -19,7 +19,7 @@ import com.ssamz.demo.dto.ResponseDTO;
 import com.ssamz.demo.dto.UserDTO;
 import com.ssamz.demo.service.UserService;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 @Controller
 public class UserController {
@@ -28,6 +28,12 @@ public class UserController {
 	
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@GetMapping("/auth/login")
+	public String login()
+	{
+		return "system/login";
+	}
 	
 	@GetMapping("/auth/insertUser")
 	public String insertUser()
