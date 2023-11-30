@@ -1,19 +1,42 @@
 package com.ssamz.demo.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.ssamz.demo.security.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	private UserDetailsServiceImpl userDetailsService;
+	
+	@Bean
+	public PasswordEncoder passwordEncoder()
+	{
+		return new BCryptPasswordEncoder();
+	}
+	
+	// 사용자가 입력한 username으로 User객체를 검색하고 password를 비교한다
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception
+	{
+		auth.userDetailsService(userDetailsService);
+	}
+	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	// 인증 없이 접근을 허용하는 경로
     	http.authorizeRequests().antMatchers("/webjars/**", "/js/**", "/image/**",
-    			"/", "/auth/**").permitAll();
+    			"/", "/auth/**", "/jblog/view").permitAll();
     
     	// 나머지 경로는 인증이 필요하다.
     	http.authorizeRequests().anyRequest().authenticated();
@@ -22,6 +45,11 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
     	http.csrf().disable();
     	
     	// 기본 로그인 화면 제공
-    	http.formLogin().loginPage("/auth/login").defaultSuccessUrl("/jblog/view", true);  // 로그인 성공 후 /jblog/view로 리다이렉트;
+    	http.formLogin().loginPage("/auth/login")	// 로그인 페이지 URL
+    	.loginProcessingUrl("/auth/securitylogin")	// 로그인 정보 처리 URL
+    	.defaultSuccessUrl("/jblog/view", true);  // 로그인 성공 후 /jblog/view로 리다이렉트;
+    	
+    	// 로그아웃 설정
+    	http.logout().logoutUrl("/auth/logout").logoutSuccessUrl("/jblog/view");
     }
 }

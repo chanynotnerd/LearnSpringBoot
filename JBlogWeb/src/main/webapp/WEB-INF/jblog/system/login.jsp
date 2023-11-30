@@ -2,7 +2,7 @@
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container mt-3">
-	<form action="/auth/login" method="post">
+	<form action="/auth/securitylogin" method="post">
 		<div class="mb-3">
 			<label for="uname"><spring:message code="user.login.form.username"/>
 			</label> <input type="text" class="form-control" name="username" placeholder="Enter username" value="test">
