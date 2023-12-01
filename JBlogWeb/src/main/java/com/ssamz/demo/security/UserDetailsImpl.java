@@ -25,8 +25,9 @@ public class UserDetailsImpl implements UserDetails {
 	@Override
 	public String getPassword()
 	{
-		// noop: 암호화하지 않기 위한 설정
-		return "{noop}" + user.getPassword();
+		// noop: 암호화하지 않기 위한 설정 / 로그인 인증 시 사용자가 입력한 비밀번호를 암호화 하여 비교하기 위해 삭제
+		// return "{noop}" + user.getPassword();
+		return user.getPassword();
 	}
 	
 	@Override

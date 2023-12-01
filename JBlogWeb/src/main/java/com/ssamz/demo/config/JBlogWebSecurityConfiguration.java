@@ -26,12 +26,17 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
 	}
 	
 	// 사용자가 입력한 username으로 User객체를 검색하고 password를 비교한다
+	// configure 메소드는 Spring Security의 인증메커니즘을 설정하는 곳.
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception
 	{
-		auth.userDetailsService(userDetailsService);
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 	
+	// antMatcher 메소드는 Spring Security에서 HTTP 요청 경로를 패턴으로 매칭하는 역할
+	// Ant 스타일의 경로 패턴은 규칙을 가지고 있는데,
+	// ? : 한 문자와 매칭 | *: 한 경로 세그먼트와 매칭. ex) /* = /test는 되지만 /123은 안된다.
+	// **: 여러경로 세그먼트와 매칭 | ex) /** = /test, /123 모두 매칭 가능.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	// 인증 없이 접근을 허용하는 경로

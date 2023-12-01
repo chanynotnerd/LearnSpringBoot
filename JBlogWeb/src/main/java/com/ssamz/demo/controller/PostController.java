@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,7 @@ import com.ssamz.demo.domain.Post;
 import com.ssamz.demo.domain.User;
 import com.ssamz.demo.dto.PostDTO;
 import com.ssamz.demo.dto.ResponseDTO;
+import com.ssamz.demo.security.UserDetailsImpl;
 import com.ssamz.demo.service.PostService;
 
 import javax.servlet.http.HttpSession;
@@ -55,23 +57,31 @@ public class PostController {
 		}
 	
 	@GetMapping("/post/updatePost/{id}")
-	public String updatePost(@PathVariable int id, Model model)
+	public String updatePost(@PathVariable int id, Model model,
+			 @AuthenticationPrincipal UserDetailsImpl principal)
+	
 	{
 		model.addAttribute("post", postService.getPost(id));
+		if (principal != null) {
+			model.addAttribute("currentUser", principal.getUser());
+		}
 		return "post/updatePost";
 	}
 	
 	@GetMapping("/post/{id}")
-	public String getPost(@PathVariable int id, Model model)
+	public String getPost(@PathVariable int id, Model model,  @AuthenticationPrincipal UserDetailsImpl principal)
 	{
 		model.addAttribute("post", postService.getPost(id));
+		if (principal != null) {
+			model.addAttribute("currentUser", principal.getUser());
+		}
 		return "post/getPost";
 	}
 	
 	@PostMapping("/post")
 	public @ResponseBody ResponseDTO<?> insertPost(
 			@Valid @RequestBody PostDTO postDTO, BindingResult bindingResult,
-			HttpSession session)
+			@AuthenticationPrincipal UserDetailsImpl principal)
 	{
 //		// PostDTO 객체에 대한 유효성 검사
 //		if(bindingResult.hasErrors())
@@ -88,8 +98,7 @@ public class PostController {
 		Post post = modelMapper.map(postDTO, Post.class);
 		
 		// Post객체를 영속화하기 전 연관된 User 엔티티 설정
-		User principal = (User) session.getAttribute("principal");
-		post.setUser(principal);
+		post.setUser(principal.getUser());
 		post.setCnt(0);
 		
 		postService.insertPost(post);
@@ -97,6 +106,7 @@ public class PostController {
 		return new ResponseDTO<>(HttpStatus.OK.value(),
 				"새로운 포스트를 등록했습니다.");
 	}
+	
 	@GetMapping({"/jblog/view"})	// getmapping을 직접 해버렸다. 500 에러가 또 떠서.
 	public String getPostList(Model model, @PageableDefault(size = 3, sort = "id",
 	direction = Direction.DESC) Pageable pageable)

@@ -19,6 +19,17 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	@Transactional
+	public User updateUser(User user)
+	{
+		User findUser = userRepository.findById(user.getId()).get();
+		findUser.setUsername(user.getUsername());
+		findUser.setPassword(passwordEncoder.encode(user.getPassword()));
+		findUser.setEmail(user.getEmail());
+		
+		return findUser;
+	}
+	
 	@Transactional(readOnly = true)
 	public User getUser(String username) 
 	{

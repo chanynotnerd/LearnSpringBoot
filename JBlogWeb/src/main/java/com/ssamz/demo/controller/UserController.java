@@ -6,17 +6,21 @@ import java.util.Map;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ssamz.demo.domain.User;
 import com.ssamz.demo.dto.ResponseDTO;
 import com.ssamz.demo.dto.UserDTO;
+import com.ssamz.demo.security.UserDetailsImpl;
+import com.ssamz.demo.security.UserDetailsServiceImpl;
 import com.ssamz.demo.service.UserService;
 
 import javax.validation.Valid;
@@ -28,6 +32,20 @@ public class UserController {
 	
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@PutMapping("/user")
+	public @ResponseBody ResponseDTO<?> updateUser(@RequestBody User user,
+			@AuthenticationPrincipal UserDetailsImpl principal)
+	{
+		principal.setUser(userService.updateUser(user));
+		return new ResponseDTO<>(HttpStatus.OK.value(), user.getUsername() + " 수정 완료");
+	}
+	
+	@GetMapping("/user/updateUser")
+	public String updateUser() 
+	{
+		return "user/updateUser";
+	}
 	
 	@GetMapping("/auth/login")
 	public String login()
