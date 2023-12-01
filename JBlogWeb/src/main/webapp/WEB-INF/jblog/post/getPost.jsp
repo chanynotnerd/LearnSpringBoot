@@ -2,6 +2,9 @@
 <%@ page import="com.ssamz.demo.domain.Post"%>
 <%@ page import="com.ssamz.demo.domain.User"%>
 <%@ page import="com.ssamz.demo.domain.Reply"%>
+<%@ page import="org.springframework.security.core.Authentication"%>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder"%>
+<%@ page import="com.ssamz.demo.security.UserDetailsImpl"%>
 <%@ page import="java.time.format.DateTimeFormatter"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ include file="../layout/header.jsp"%>
@@ -38,7 +41,17 @@
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	Post post = (Post) request.getAttribute("post");
 	if (post.getReplyList() != null && !post.getReplyList().isEmpty()) {
-		User currentUser = (User) request.getSession(false).getAttribute("principal"); // 세션에서 사용자 정보를 가져옵니다.
+		// 스프링 시큐리티를 사용하기 때문에 사용자 정보는 UserDetails 객체에 저장되고, 이는 SecurityContext에 저장되며
+		// SecurityContextHolder에 의해 관리가 된다. 그렇기에 사용자 정보를 가져오려면 SecurityContextHolder를 사용해야 한다.
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+		User currentUser = userDetails.getUser();
+		
+	    // 로그 출력 코드 추가
+	    System.out.println("currentUser: " + currentUser);
+	    if (currentUser != null) {
+	        System.out.println("currentUser's username: " + currentUser.getUsername());
+	    }
 	%>
 	<div class="container mt-3">
 		<table class="table">
@@ -48,12 +61,18 @@
 					<th width="10%">작성자</th>
 					<th width="20%">시간</th>
 					<th width="10%">삭제</th>
-					<!-- 항상 삭제 열을 표시합니다. -->
+					<!-- 항상 삭제 열을 표시 -->
 				</tr>
 			</thead>
 			<tbody>
 				<%
 				for (Reply reply : post.getReplyList()) {
+					
+				    // 로그 출력 코드 추가
+				    System.out.println("reply's user: " + reply.getUser());
+				    if (reply.getUser() != null) {
+				        System.out.println("reply's user's username: " + reply.getUser().getUsername());
+				    }
 				%>
 				<tr>
 					<td><%=reply.getContent()%></td>

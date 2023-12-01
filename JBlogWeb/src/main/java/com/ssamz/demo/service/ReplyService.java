@@ -9,6 +9,7 @@ import com.ssamz.demo.domain.Reply;
 import com.ssamz.demo.domain.User;
 import com.ssamz.demo.persistence.PostRepository;
 import com.ssamz.demo.persistence.ReplyRepository;
+import com.ssamz.demo.security.UserDetailsImpl;
 
 @Service
 public class ReplyService {
@@ -19,8 +20,16 @@ public class ReplyService {
 	private PostRepository postRepository;
 	
 	@Transactional
-	public void deleteReply(int replyId)
+	public void deleteReply(int replyId, UserDetailsImpl principal)
 	{
+		Reply reply = replyRepository.findById(replyId)
+	            .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + replyId));
+	        
+	        User currentUser = principal.getUser();
+	        if (reply.getUser().getId() != currentUser.getId()) {
+	            throw new IllegalArgumentException("댓글을 삭제할 권한이 없습니다.");
+	        }
+		
 		replyRepository.deleteById(replyId);
 	}
 	

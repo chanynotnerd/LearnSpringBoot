@@ -24,8 +24,8 @@ public class ReplyController {
 	private ReplyService replyService;
 	
 	@DeleteMapping("/reply/{replyId}")
-	public @ResponseBody ResponseDTO<?> deleteReply(@PathVariable int replyId) {
-		replyService.deleteReply(replyId);
+	public @ResponseBody ResponseDTO<?> deleteReply(@PathVariable int replyId, @AuthenticationPrincipal UserDetailsImpl principal) {
+		replyService.deleteReply(replyId, principal);
 		return new ResponseDTO<>(HttpStatus.OK.value(),
 				replyId+"번 댓글이 삭제되었습니다.");
 	}
