@@ -36,7 +36,7 @@ public class PostService {
 		Post post = postRepository.findById(id).orElseThrow(
 		        () -> new IllegalArgumentException("해당 게시글이 없습니다.")
 		    );
-		    post.getReplyList().size();  // 이 부분이 댓글 목록을 로드하는 코드입니다.
+		    post.getReplyList().size();  // 댓글 목록을 불러옴.
 		    return post;
 		// return postRepository.findById(id).get();
 	}

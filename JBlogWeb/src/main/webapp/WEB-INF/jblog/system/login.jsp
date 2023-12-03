@@ -4,13 +4,18 @@
 <div class="container mt-3">
 	<form action="/auth/securitylogin" method="post">
 		<div class="mb-3">
-			<label for="uname"><spring:message code="user.login.form.username"/>
-			</label> <input type="text" class="form-control" name="username" placeholder="Enter username" value="test">
+			<label for="uname"><spring:message code="user.login.form.username" /> </label> <input type="text" class="form-control" name="username" placeholder="Enter username" value="test">
 		</div>
 		<div class="mb-3">
-			<label for="pwd"><spring:message code="user.login.form.password"/>
-			</label> <input type="password" class="form-control" name="password" placeholder="Enter password" value="test123">
-			<button id="btn-login" class="btn btn-secondary" type="submit">로그인</button>
+			<label for="pwd"><spring:message code="user.login.form.password" /> </label> <input type="password" class="form-control" name="password" placeholder="Enter password" value="test123">
+		</div>
+		<div class="mb-3">
+			<button id="btn-login" class="btn btn-secondary" type="submit">
+				<spring:message code="user.login.form.login_btn" />
+			</button>
+			<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=7726cc35fb60a4fcf57862d725f173de&
+			redirect_uri=http://localhost:8080/oauth/kakao">
+			<img height="38px" src="/image/kakao_login_btn.png"></a>
 		</div>
 	</form>
 </div>

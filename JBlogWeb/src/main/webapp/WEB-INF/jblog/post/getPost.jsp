@@ -47,7 +47,7 @@
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 		User currentUser = userDetails.getUser();
 		
-	    // 로그 출력 코드 추가
+	    // 로그 출력 코드 추가, 로그인 된 유저 확인용
 	    System.out.println("currentUser: " + currentUser);
 	    if (currentUser != null) {
 	        System.out.println("currentUser's username: " + currentUser.getUsername());
@@ -68,7 +68,7 @@
 				<%
 				for (Reply reply : post.getReplyList()) {
 					
-				    // 로그 출력 코드 추가
+				    // 로그 출력 코드 추가, 댓글 사용자 확인용
 				    System.out.println("reply's user: " + reply.getUser());
 				    if (reply.getUser() != null) {
 				        System.out.println("reply's user's username: " + reply.getUser().getUsername());
@@ -80,7 +80,7 @@
 					<td><%=reply.getCreateDate().format(formatter)%></td>
 					<td>
 						<%
-						// 사용자가 로그인한 경우에만 삭제 버튼을 표시합니다.
+						// 사용자가 로그인한 경우 삭제 버튼 표시.
 						if (currentUser != null && reply.getUser().getUsername() != null
 								&& reply.getUser().getUsername().equals(currentUser.getUsername())) {
 						%>
