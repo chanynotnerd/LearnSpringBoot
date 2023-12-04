@@ -29,18 +29,21 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
 		return super.authenticationManagerBean();
 	}
 	
-	@Bean
-	public PasswordEncoder passwordEncoder()
-	{
-		return new BCryptPasswordEncoder();
-	}
+//	@Bean
+//	public PasswordEncoder passwordEncoder()
+//	{
+//		return new BCryptPasswordEncoder();
+//	}
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	// 사용자가 입력한 username으로 User객체를 검색하고 password를 비교한다
 	// configure 메소드는 Spring Security의 인증메커니즘을 설정하는 곳.
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception
 	{
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
 	}
 	
 	// antMatcher 메소드는 Spring Security에서 HTTP 요청 경로를 패턴으로 매칭하는 역할
