@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.ssamz.demo.security.OAuth2UserDetailsServiceImpl;
 import com.ssamz.demo.security.UserDetailsServiceImpl;
 
 @Configuration
@@ -19,6 +20,9 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
+	
+	@Autowired
+	private OAuth2UserDetailsServiceImpl oauth2DetailsService;
 	
 	@Bean
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -62,5 +66,8 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
     	
     	// 로그아웃 설정
     	http.logout().logoutUrl("/auth/logout").logoutSuccessUrl("/jblog/view");
+    	
+    	// 구글 로그인 설정
+    	http.oauth2Login().defaultSuccessUrl("/jblog/view", true); 
     }
 }
