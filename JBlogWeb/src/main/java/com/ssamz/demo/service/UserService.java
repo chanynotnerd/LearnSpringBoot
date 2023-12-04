@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.ssamz.demo.domain.OAuthType;
 import com.ssamz.demo.domain.RoleType;
 import com.ssamz.demo.domain.User;
 import com.ssamz.demo.persistence.UserRepository;
@@ -51,6 +53,10 @@ public class UserService {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		
 		user.setRole(RoleType.USER);
+		if(user.getOauth() == null)
+		{
+			user.setOauth(OAuthType.JBLOG);
+		}
 		userRepository.save(user);
 	}
 }

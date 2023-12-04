@@ -65,6 +65,6 @@ public class JBlogWebMvcConfiguration implements WebMvcConfigurer{
 	{
 //		registry.addInterceptor(
 //				new AuthenticateInterceptor()).addPathPatterns("/", "/post/**");
-//		registry.addInterceptor(localeChangeInterceptor());
+		registry.addInterceptor(localeChangeInterceptor());
 	}
 }

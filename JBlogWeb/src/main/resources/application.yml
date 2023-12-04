@@ -34,4 +34,9 @@ spring:
     properties:
       hibernate.format_sql: true
     
+# 카카오 비밀번호
+kakao:
+  default:
+    password: kakao123
+    
     
